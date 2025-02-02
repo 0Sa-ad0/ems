@@ -3,6 +3,11 @@ session_start();
 require '../config/db.php';
 require '../includes/header.php';
 
+if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "user") {
+    header("Location: ../index.php");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
     $query = "%" . $_GET['query'] . "%";
     $stmt = $pdo->prepare("SELECT * FROM events WHERE name LIKE :query OR description LIKE :query");
